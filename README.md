@@ -22,5 +22,5 @@ Step 2. Add the dependency
 ```
 
 # addtion
-app目录下: MyLogUtil封装
-HttpLoggingM: okhttp日志打印拦截器优化版
+* app目录下: MyLogUtil封装
+* HttpLoggingM: okhttp日志打印拦截器优化版
