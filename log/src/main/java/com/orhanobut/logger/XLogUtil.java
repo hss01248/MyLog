@@ -1,9 +1,11 @@
 package com.orhanobut.logger;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 /**
  * by huangshuisheng
@@ -120,6 +122,11 @@ public class XLogUtil {
             }else if(obj instanceof String){
                 Logger.json((String)obj);
             }else {
+                Logger.i(obj.toString());
+                if(obj instanceof Context || obj instanceof View){
+                    Logger.object(obj);
+                    return;
+                }
                 Logger.json(jsonfy.toJson(obj));
             }
 
@@ -144,17 +151,33 @@ public class XLogUtil {
 
     /**
      * 把对象转换为json然后格式化打印
+     * 注意,activity等大对象会anr
      * @param obj
      */
     public static void objAsJson(Object obj){
         if(DEBUG){
+            if(!(obj instanceof String) && obj != null){
+                Logger.i(obj.toString());
+            }
+            if(obj instanceof Context || obj instanceof View){
+                Logger.object(obj);
+                return;
+            }
             String json = jsonfy.toJson(obj);
             Logger.json(json);
+
         }
 
     }
     public static void objAsJson(Object obj,String tag){
         if(DEBUG){
+            if(!(obj instanceof String) && obj != null){
+                Logger.i(obj.toString());
+            }
+            if(obj instanceof Context || obj instanceof View){
+                Logger.object(tag,obj);
+                return;
+            }
             String json = jsonfy.toJson(obj);
             Logger.json(json,tag);
         }
