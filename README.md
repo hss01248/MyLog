@@ -17,10 +17,22 @@ Step 2. Add the dependency
 ```
 
 	dependencies {
-	        compile 'com.github.hss01248:Mylog:1.0.0'
+	        compile 'com.github.hss01248:Mylog:1.0.1'
 	}
 ```
 
+
+
+# API
+
+```
+//初始化
+XLogUtil.init(....)
+
+//使用:
+XLogUtil.xxx
+```
+
 # addtion
-* app目录下: MyLogUtil封装
+
 * HttpLoggingM: okhttp日志打印拦截器优化版
