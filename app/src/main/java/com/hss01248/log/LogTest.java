@@ -2,15 +2,14 @@ package com.hss01248.log;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.blankj.ALog;
 import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
-import com.orhanobut.logger.LogBuilder;
-import com.orhanobut.logger.LogPrintStyle;
-import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.Jsonfy;
+import com.orhanobut.logger.XLogUtil;
 import com.socks.library.KLog;
 
 import org.mym.plog.DebugPrinter;
@@ -52,7 +51,7 @@ public class LogTest {
      * https://github.com/tianzhijiexian/LogDelegate
      */
     private static void initLogger() {
-        Logger.initialize(
+        /*Logger.initialize(
             new LogBuilder()
                 .logPrintStyle(new LogPrintStyle())
                 .showMethodLink(true)
@@ -61,7 +60,13 @@ public class LogTest {
                 .globalTag("logger")
                 .methodOffset(1)
                 .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
-                .build());
+                .build());*/
+        XLogUtil.init(true, "LogDelegate", new Jsonfy() {
+            @Override
+            public String toJson(Object obj) {
+                return JSON.toJSONString(obj);
+            }
+        });
     }
 
     private static void initALog(Context context) {
@@ -175,7 +180,7 @@ public class LogTest {
         if(DEBUG){
             ALog.json(obj);
            KLog.json(obj);
-            Logger.json(obj);
+            XLogUtil.json(obj);
             XLog.json(TextUtils.isEmpty(obj)?"":obj);
             PLog.objects(obj);
         }
@@ -189,7 +194,7 @@ public class LogTest {
         if(DEBUG){
             ALog.e(obj);
             KLog.e(obj);
-            Logger.object(obj);
+            XLogUtil.objAsJson(obj);
             XLog.d(obj==null? "null" :obj);
             PLog.objects(obj);
 

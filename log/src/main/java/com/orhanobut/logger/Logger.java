@@ -115,14 +115,26 @@ public class Logger {
      * @param json the json content
      */
     public static void json(String json) {
-        Timber.i(XmlJsonParser.json(json));
+        try {
+            Timber.i(XmlJsonParser.json(json));
+        }catch (Exception e){
+            e.printStackTrace();
+            Timber.i(json);
+        }
+
     }
 
     public static void json(String json,String tag) {
-        String str = XmlJsonParser.json(json);
-        isTagJson = true;
-        Timber.tag(tag).i(str);
-        isTagJson = false;
+        try {
+            String str = XmlJsonParser.json(json);
+            isTagJson = true;
+            Timber.tag(tag).i(str);
+            isTagJson = false;
+        }catch (Exception e){
+            e.printStackTrace();
+            Timber.tag(tag).i(json);
+        }
+
     }
 
     /**

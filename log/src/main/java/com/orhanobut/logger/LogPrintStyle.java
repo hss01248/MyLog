@@ -10,9 +10,6 @@ import android.support.annotation.NonNull;
 public class LogPrintStyle extends PrintStyle {
 
     private static final String PREFIX_BORDER = "│ ";
-
-    private StringBuilder sb = new StringBuilder(64);
-
     @Override
     public String beforePrint() {
         return "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
@@ -22,7 +19,7 @@ public class LogPrintStyle extends PrintStyle {
      * ==> onCreate(MainActivity.java:827) Thread:main
      */
     @Override
-    protected String printStackAndThread() {
+    protected   String printStackAndThread() {
         if (!getSettings().showMethodLink) {
             return "";
         }
@@ -34,7 +31,11 @@ public class LogPrintStyle extends PrintStyle {
         if(Logger.isTagJson){
             index++;
         }
-        final StackTraceElement stack = Thread.currentThread().getStackTrace()[index];
+        StackTraceElement[]  elements= Thread.currentThread().getStackTrace();
+        if(index > elements.length-1){
+            index = elements.length-1;
+        }
+        final StackTraceElement stack = elements[index];
 
        /* if (sb.length() < 0) {
             sb = new StringBuilder();
@@ -42,23 +43,22 @@ public class LogPrintStyle extends PrintStyle {
             sb.setLength(0);
 
         }*/
-        sb = new StringBuilder(64);
+         StringBuilder  sb = new StringBuilder(100);
        /* sb.append("\n");
         sb.append("├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
         sb.append("\n");*/
-        sb.append(PREFIX_BORDER);
-        String info = String.format(" ────> %s(%s:%s)",
-            stack.getMethodName(),
-            stack.getFileName(),
-            stack.getLineNumber());
-        sb.append(info);
+           sb.append(PREFIX_BORDER);
+           String info = String.format(" ────> %s(%s:%s)",
+               stack.getMethodName(),
+               stack.getFileName(),
+               stack.getLineNumber());
+           sb.append(info);
 
 
-        if (getSettings().showThreadInfo) {
-            sb.append(" Thread: ").append(Thread.currentThread().getName()); // Thread:main
-        }
-        return sb.toString();
-
+           if (getSettings().showThreadInfo) {
+               sb.append(" Thread: ").append(Thread.currentThread().getName()); // Thread:main
+           }
+           return sb.toString();
     }
 
     @NonNull

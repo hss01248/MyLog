@@ -1,28 +1,28 @@
-package com.hss01248.log.log;
+package com.orhanobut.logger;
 
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.orhanobut.logger.LogBuilder;
-import com.orhanobut.logger.LogPrintStyle;
-import com.orhanobut.logger.Logger;
 
 /**
  * by huangshuisheng
  */
-public class MyLogUtil {
+public class XLogUtil {
 
-    public final static boolean DEBUG = true;
+    private  static boolean DEBUG = false;
+    private static Jsonfy jsonfy;
 
-    public static void init(){
+    public static void init(boolean isPrintLog,String globalTag,Jsonfy jsonfy){
+        DEBUG = isPrintLog;
+        XLogUtil.jsonfy = jsonfy;
         Logger.initialize(
             new LogBuilder()
                 .logPrintStyle(new LogPrintStyle())
                 .showMethodLink(true)
                 .showThreadInfo(true)
                 .tagPrefix("")
-                .globalTag("haha")
+                .globalTag(globalTag)
                 .methodOffset(1)
                 .logPriority(DEBUG ? Log.VERBOSE : Log.ASSERT)
                 .build());
@@ -113,6 +113,19 @@ public class MyLogUtil {
         }
     }
 
+    public static void json(Object obj){
+        if(DEBUG){
+            if(obj ==null){
+                Logger.i("null");
+            }else if(obj instanceof String){
+                Logger.json((String)obj);
+            }else {
+                Logger.json(jsonfy.toJson(obj));
+            }
+
+        }
+    }
+
 
     public static void xml(String xml){
         if(DEBUG)
@@ -127,6 +140,56 @@ public class MyLogUtil {
     public static void obj(String tag, Object obj){
         if(DEBUG)
             Logger.object(tag,obj);
+    }
+
+    /**
+     * 把对象转换为json然后格式化打印
+     * @param obj
+     */
+    public static void objAsJson(Object obj){
+        if(DEBUG){
+            String json = jsonfy.toJson(obj);
+            Logger.json(json);
+        }
+
+    }
+    public static void objAsJson(Object obj,String tag){
+        if(DEBUG){
+            String json = jsonfy.toJson(obj);
+            Logger.json(json,tag);
+        }
+
+    }
+
+    public static void bitmap(Bitmap bitmap){
+        if(DEBUG){
+            int width = bitmap.getWidth()-1;
+            int height = bitmap.getHeight();
+
+            MyColor[][] frams = new MyColor[6][2];
+            frams[0][0] = new MyColor(bitmap.getPixel(0,0));
+            frams[0][1] = new MyColor(bitmap.getPixel(width,0));
+            frams[1][0] = new MyColor(bitmap.getPixel(0,1));
+            frams[1][1] = new MyColor(bitmap.getPixel(width,1));
+            frams[2][0] = new MyColor(bitmap.getPixel(0,2));
+            frams[2][1] = new MyColor(bitmap.getPixel(width,2));
+
+
+            frams[3][0] = new MyColor(bitmap.getPixel(0,height-3));
+            frams[3][1] = new MyColor(bitmap.getPixel(width,height-3));
+            frams[4][0] = new MyColor(bitmap.getPixel(0,height-2));
+            frams[4][1] = new MyColor(bitmap.getPixel(width,height-2));
+            frams[5][0] = new MyColor(bitmap.getPixel(0,height-1));
+            frams[5][1] = new MyColor(bitmap.getPixel(width,height-1));
+
+            String[][] arr = new String[6][2];
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 2; j++) {
+                    arr[i][j] = (i+1)+"-"+(j+1);
+                }
+            }
+            Logger.object(frams);
+        }
     }
 
     public static void format(String format, Object... args){
