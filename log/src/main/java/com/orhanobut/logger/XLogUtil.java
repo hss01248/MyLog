@@ -33,7 +33,7 @@ public class XLogUtil {
         /*LogConfiguration config = new LogConfiguration.Builder()
             .logLevel(DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
                 : LogLevel.NONE)
-            .tag("akulaku")                                         // Specify TAG, default: "X-LOG"
+                                           // Specify TAG, default: "X-LOG"
             .t()                                                   // Enable thread info, disabled by default
             .st(2)                                                 // Enable stack trace info with depth 2, disabled by default
             .b()
