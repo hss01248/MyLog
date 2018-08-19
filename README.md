@@ -17,7 +17,7 @@ Step 2. Add the dependency
 ```
 
 	dependencies {
-	        compile 'com.github.hss01248:Mylog:1.0.1'
+	        compile 'com.github.hss01248:Mylog:1.0.2'
 	}
 ```
 
@@ -27,10 +27,10 @@ Step 2. Add the dependency
 
 ```
 //初始化
-XLogUtil.init(....)
+MyLog.init(....)
 
 //使用:
-XLogUtil.xxx
+MyLog.xxx
 ```
 
 # addtion
