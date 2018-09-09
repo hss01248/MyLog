@@ -13,7 +13,14 @@ public class MyLog {
     private   static boolean DEBUG ;
     private static IJsonToStr json;
 
-    public static void init(boolean debug,String gloablTag,IJsonToStr iJson) {
+    /**
+     *
+     * @param debug
+     * @param gloablTag
+     * @param methodOffset 直接适用MyLog.xx时,methodOffset传1.每封装一层,加1.
+     * @param iJson
+     */
+    public static void init(boolean debug,String gloablTag,int methodOffset,IJsonToStr iJson) {
         DEBUG = debug;
         json = iJson;
 
@@ -24,7 +31,7 @@ public class MyLog {
                         .showThreadInfo(true)
                         .tagPrefix("")
                         .globalTag(gloablTag)
-                        .methodOffset(1)
+                        .methodOffset(methodOffset)
                         .logPriority(DEBUG ? Log.VERBOSE : Log.ASSERT)
                         .build());
 

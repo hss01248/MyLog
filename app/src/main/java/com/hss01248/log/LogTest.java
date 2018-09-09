@@ -59,7 +59,7 @@ public class LogTest {
                 .methodOffset(1)
                 .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
                 .build());*/
-        MyLog.init(true, "LogDelegate", new IJsonToStr() {
+        MyLog.init(true, "LogDelegate", 1,new IJsonToStr() {
             @Override
             public String toStr(Object obj) {
                 return JSON.toJSONString(obj);

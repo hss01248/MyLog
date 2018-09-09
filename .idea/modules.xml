@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MyLog.iml" filepath="$PROJECT_DIR$/MyLog.iml" />
+      <module fileurl="file://D:\projects\android\hss01248\MyLog\MyLog.iml" filepath="D:\projects\android\hss01248\MyLog\MyLog.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\projects\android\hss01248\MyLog\app\app.iml" filepath="D:\projects\android\hss01248\MyLog\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/log/log.iml" filepath="$PROJECT_DIR$/log/log.iml" />
+      <module fileurl="file://D:\projects\android\hss01248\MyLog\log\log.iml" filepath="D:\projects\android\hss01248\MyLog\log\log.iml" />
     </modules>
   </component>
 </project>
