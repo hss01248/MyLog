@@ -192,7 +192,7 @@ public class LogTest {
         if(DEBUG){
             ALog.e(obj);
             KLog.e(obj);
-            MyLog.objAsJson(obj);
+            MyLog.obj(obj);
             XLog.d(obj==null? "null" :obj);
             PLog.objects(obj);
 

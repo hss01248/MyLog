@@ -46,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         json = "{\"success\":true,\"sysTime\":1513047713610,\"data\":{\"activity\":{\"id\":4956,\"type\":8,\"name\":\"Seckill\",\"countryId\":3,\"areaId\":1,\"bannerImg\":\"https://d12x8ezp3au6m3.cloudfront.net/activity/banner/f6kiJGteQALdbwEcKlZVIsGVcLVd-Lg6CxmVZ-Jn_Lo.jpg\",\"bannerImg2\":\"https://d12x8ezp3au6m3.cloudfront.net/activity/banner/9gNh7Ld2jFHArni-kTpweqXedO4LJJoUXP8rQPK36-U.jpg\",\"link\":\"\",\"beginTime\":1513000860000,\"endTime\":1513029600000,\"priceBeginTime\":1513000860000,\"priceEndTime\":1513029600000,\"colorTemplate\":{\"id\":3,\"name\":\"green\",\"param\":{\"leftRGB\":\"#FF4EB793\",\"rightRGB\":\"#FF335B60\"}}},\"list\":[]}}";
-        responseBean = JSON.parseObject(json,ResponseBean.class);
+        responseBean = new ResponseBean();
+
+
+
         arr = new String[]{"89","djs","458","fjdsj"};
         list = new ArrayList();
         list.add("1");

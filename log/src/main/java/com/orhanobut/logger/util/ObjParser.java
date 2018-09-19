@@ -85,7 +85,8 @@ public class ObjParser {
             return "Object{object is null}";
         }
         if (object.toString().startsWith(object.getClass().getName() + "@")) {
-            StringBuilder builder = new StringBuilder(object.getClass().getSimpleName() + "{");
+            StringBuilder builder = new StringBuilder(object.toString() + "{");
+            builder.append("\n");
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
@@ -100,12 +101,19 @@ public class ObjParser {
                             value = e;
                         } finally {
                             builder.append(String.format("%s=%s, ", field.getName(),
-                                    value == null ? "null" : value.toString()));
+                                    value == null ? "null" : value.toString())).append("\n");
                         }
                     }
                 }
                 if (!flag) {
-                    builder.append(String.format("%s=%s, ", field.getName(), "Object"));
+                    try {
+                        Object objectf = field.get(object);
+                        String objStr = objectf == null ? "null" : objectf.toString();
+                        builder.append(String.format("%s=%s, \n", field.getName(), objStr));//"Object"
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        builder.append(String.format("%s=%s, \n", field.getName(), "object"));
+                    }
                 }
             }
             return builder.replace(builder.length() - 2, builder.length() - 1, "}").toString();

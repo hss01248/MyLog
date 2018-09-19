@@ -17,7 +17,7 @@ Step 2. Add the dependency
 ```
 
 	dependencies {
-	        compile 'com.github.hss01248:Mylog:1.0.3'
+	        compile 'com.github.hss01248:Mylog:1.0.4'
 	}
 ```
 
