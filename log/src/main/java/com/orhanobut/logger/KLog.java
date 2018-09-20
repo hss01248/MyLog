@@ -8,7 +8,7 @@ import android.util.Log;
 /**
  * by huangshuisheng
  */
-public class MyLog {
+public class KLog {
 
     private   static boolean DEBUG ;
     private static IJsonToStr json;
@@ -193,7 +193,7 @@ public class MyLog {
     public static void bitmap(Bitmap bitmap) {
         if (DEBUG) {
             if (bitmap == null) {
-                MyLog.d("bitmap is null");
+                KLog.d("bitmap is null");
                 return;
             }
             int width = bitmap.getWidth() - 1;

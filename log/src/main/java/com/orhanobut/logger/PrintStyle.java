@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 public abstract class PrintStyle {
 
     private LogPrinter printer;
+    public static final String SPACE = "  ";
+    public static final String NEWLINE_AND_SPACE = "\n  ";
 
     public void setPrinter(LogPrinter printer) {
         this.printer = printer;
