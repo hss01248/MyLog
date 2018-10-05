@@ -1,5 +1,6 @@
 ﻿# MyLog
 
+[![](https://jitpack.io/v/hss01248/MyLog.svg)](https://jitpack.io/#hss01248/MyLog)
 
 # use
 
