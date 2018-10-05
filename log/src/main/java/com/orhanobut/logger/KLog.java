@@ -114,6 +114,21 @@ public class KLog {
         }
     }
 
+    public static void printStack(Throwable e) {
+        if (DEBUG) {
+            if(e !=null){
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void printStack(String msg) {
+        if (DEBUG) {
+            if(!TextUtils.isEmpty(msg)){
+                new Throwable(msg).printStackTrace();
+            }
+        }
+    }
+
     public static void exception(String message, Throwable e) {
         if (DEBUG) {
             Logger.e(e, message);
