@@ -3,7 +3,7 @@ package com.hss01248.log.log;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.orhanobut.logger.KLog;
+import com.orhanobut.logger.MLog;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -119,9 +119,9 @@ public final class HttpLoggingInterceptorM implements Interceptor {
                 }
 
                 if(str.startsWith("{") && str.endsWith("}")){
-                    KLog.json(TAG,str);
+                    MLog.json(TAG,str);
                 }else if(str.startsWith("[") && str.endsWith("]")){
-                    KLog.json(TAG,str);
+                    MLog.json(TAG,str);
                 }
 
 

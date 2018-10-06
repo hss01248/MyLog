@@ -8,7 +8,7 @@ import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 import com.orhanobut.logger.IJsonToStr;
-import com.orhanobut.logger.KLog;
+import com.orhanobut.logger.MLog;
 
 import org.mym.plog.DebugPrinter;
 import org.mym.plog.PLog;
@@ -59,7 +59,7 @@ public class LogTest {
                 .methodOffset(1)
                 .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
                 .build());*/
-        KLog.init(true, "LogDelegate", 1,new IJsonToStr() {
+        MLog.init(true, "LogDelegate", 1,new IJsonToStr() {
             @Override
             public String toStr(Object obj) {
                 return JSON.toJSONString(obj);
@@ -178,7 +178,7 @@ public class LogTest {
         if(DEBUG){
             ALog.json(obj);
            com.socks.library.KLog.json(obj);
-            KLog.json(obj);
+            MLog.json(obj);
             XLog.json(TextUtils.isEmpty(obj)?"":obj);
             PLog.objects(obj);
         }
@@ -192,7 +192,7 @@ public class LogTest {
         if(DEBUG){
             ALog.e(obj);
             com.socks.library.KLog.e(obj);
-            KLog.obj(obj);
+            MLog.obj(obj);
             XLog.d(obj==null? "null" :obj);
             PLog.objects(obj);
 
