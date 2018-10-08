@@ -5,14 +5,7 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.File;
 
-import me.pqpo.librarylog4a.Log4a;
-import me.pqpo.librarylog4a.LogData;
-import me.pqpo.librarylog4a.appender.AndroidAppender;
-import me.pqpo.librarylog4a.appender.FileAppender;
-import me.pqpo.librarylog4a.interceptor.Interceptor;
-import me.pqpo.librarylog4a.logger.AppenderLogger;
 
 /**
  * by huangshuisheng
@@ -27,7 +20,7 @@ public class MLog {
      * @param debug
      * @param gloablTag
      * @param methodOffset 直接适用MyLog.xx时,methodOffset传1.每封装一层,加1.
-     * @param iJson
+     * @param iJson  object转json字符串的功能,外部提供
      */
     public static void init(boolean debug,String gloablTag,int methodOffset,IJsonToStr iJson) {
         DEBUG = debug;

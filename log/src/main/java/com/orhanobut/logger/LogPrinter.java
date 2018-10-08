@@ -83,12 +83,15 @@ public final class LogPrinter extends Timber.DebugTree {
         }*/
 //Android系统的单条日志打印长度是有限的，长度是固定的4*1024个字符长度
         String msg = message;
-        while (msg.length() > 4000){
-            String pre = msg.substring(0,4000);
-            super.log(priority, tag, pre, null);
-            msg = msg.substring(4000);
+        while (msg.length() > 3990){
+            String pre = msg.substring(0,3990);
+            String logStr = style.printLog(pre, 0, 0);
+            super.log(priority, tag, logStr, null);
+            msg = msg.substring(3990);
         }
-        super.log(priority, tag, msg, null);
+        String logStr = style.printLog(msg, 0, 0);
+        super.log(priority, tag, logStr, null);
+
 
 
         if (style.afterPrint() != null) {

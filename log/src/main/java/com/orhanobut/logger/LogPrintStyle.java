@@ -87,7 +87,7 @@ public class LogPrintStyle extends PrintStyle {
             return PREFIX_BORDER + message;
         }*/
 
-        return PREFIX_BORDER + message;
+        return " " + message;
     }
 
     @Override

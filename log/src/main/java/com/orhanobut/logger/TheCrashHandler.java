@@ -2,18 +2,15 @@ package com.orhanobut.logger;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -131,23 +128,23 @@ public class TheCrashHandler implements Thread.UncaughtExceptionHandler {
             return false;
         }
         isCrashing = true;
-        new Thread() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                Looper.loop();
-                if(openText !=null){
-                    openText.toast("crash : "+ex.getMessage());
-                }
-            }
-        }.start();
-
         collectDeviceInfo(mContext);
         String str = saveCrashInfo2File(ex);
         if(!TextUtils.isEmpty(str) && openText !=null){
-            openText.open(str);
+           openCrashLog(new File(str));
         }
         return true;
+    }
+
+    private void openCrashLog(File file) {
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri uri = openText.fileToUri(file);
+        intent.setDataAndType(uri, "text/plain");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        mContext.startActivity(intent);
     }
 
     public void collectDeviceInfo(Context ctx) {
@@ -228,17 +225,12 @@ public class TheCrashHandler implements Thread.UncaughtExceptionHandler {
 
     public interface IOpenText{
 
-        /**
-         * 注意7.0以上的文件uri兼容性
-         * @param path
-         */
-        void open(String path);
 
         /**
-         * 注意要抛到ui线程执行.似乎没用,crash时主线程阻塞了
-         * @param text
+         * 注意7.0以上的文件uri兼容性
          */
-        void toast(String text);
+        Uri fileToUri(File file);
+
     }
 
 }

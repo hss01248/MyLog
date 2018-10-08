@@ -1,23 +1,17 @@
 package com.orhanobut.logger.util;
 
+import android.support.annotation.CheckResult;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
-
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 /**
  * @author Kale
@@ -62,6 +56,6 @@ public class XmlJsonParser {
         } catch (JSONException e) {
             return e.getCause().getMessage() + "\n" + json;
         }
-        return "Log error!.(This msg from logger)";
+        return "Log error!.(This msg from logger, expect json ,but not json)";
     }
 }
