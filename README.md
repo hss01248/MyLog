@@ -1,5 +1,6 @@
-# MyLog
+﻿# MyLog
 
+[![](https://jitpack.io/v/hss01248/MyLog.svg)](https://jitpack.io/#hss01248/MyLog)
 
 # use
 
@@ -17,7 +18,7 @@ Step 2. Add the dependency
 ```
 
 	dependencies {
-	        compile 'com.github.hss01248:Mylog:1.0.2'
+	        compile 'com.github.hss01248:Mylog:1.0.4'
 	}
 ```
 

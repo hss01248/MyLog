@@ -8,8 +8,8 @@ import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 import com.orhanobut.logger.IJsonToStr;
-import com.orhanobut.logger.MyLog;
-import com.socks.library.KLog;
+import com.orhanobut.logger.MLog;
+
 import org.mym.plog.DebugPrinter;
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
@@ -59,7 +59,7 @@ public class LogTest {
                 .methodOffset(1)
                 .logPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
                 .build());*/
-        MyLog.init(true, "LogDelegate", new IJsonToStr() {
+        MLog.init(true, "LogDelegate", 1,new IJsonToStr() {
             @Override
             public String toStr(Object obj) {
                 return JSON.toJSONString(obj);
@@ -90,7 +90,7 @@ public class LogTest {
      * https://github.com/ZhaoKaiQiang/KLog
      */
     private static void initKLog() {
-        KLog.init(BuildConfig.DEBUG, "klog");
+        com.socks.library.KLog.init(BuildConfig.DEBUG, "klog");
     }
 
 
@@ -123,7 +123,7 @@ public class LogTest {
     public static void d(String tag, String message) {
         if (DEBUG){
             ALog.dTag(tag,message);
-            KLog.d(tag,message);
+            com.socks.library.KLog.d(tag,message);
             XLog.tag(tag).d(message);
         }
 
@@ -177,8 +177,8 @@ public class LogTest {
     public static void json(String obj){
         if(DEBUG){
             ALog.json(obj);
-           KLog.json(obj);
-            MyLog.json(obj);
+           com.socks.library.KLog.json(obj);
+            MLog.json(obj);
             XLog.json(TextUtils.isEmpty(obj)?"":obj);
             PLog.objects(obj);
         }
@@ -191,8 +191,8 @@ public class LogTest {
     public static void obj(Object obj){
         if(DEBUG){
             ALog.e(obj);
-            KLog.e(obj);
-            MyLog.objAsJson(obj);
+            com.socks.library.KLog.e(obj);
+            MLog.obj(obj);
             XLog.d(obj==null? "null" :obj);
             PLog.objects(obj);
 

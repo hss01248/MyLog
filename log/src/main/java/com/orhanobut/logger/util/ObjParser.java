@@ -2,6 +2,8 @@ package com.orhanobut.logger.util;
 
 import android.util.Pair;
 
+import com.orhanobut.logger.PrintStyle;
+
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,14 +33,14 @@ public class ObjParser {
             switch (dim) {
                 case 1:
                     Pair pair = ArrayParser.arrayToString(object);
-                    msg = new StringBuilder(simpleName.replace("[]", "[" + pair.first + "] {\n"));
-                    msg.append(pair.second).append("\n");
+                    msg = new StringBuilder(simpleName.replace("[]", "[" + pair.first + "] {\n  "));
+                    msg.append(pair.second).append(PrintStyle.NEWLINE_AND_SPACE);
                     break;
                 case 2:
                     Pair pair1 = ArrayParser.arrayToObject(object);
                     Pair pair2 = (Pair) pair1.first;
-                    msg = new StringBuilder(simpleName.replace("[][]", "[" + pair2.first + "][" + pair2.second + "] {\n"));
-                    msg.append(pair1.second).append("\n");
+                    msg = new StringBuilder(simpleName.replace("[][]", "[" + pair2.first + "][" + pair2.second + "] {\n  "));
+                    msg.append(pair1.second) .append(PrintStyle.NEWLINE_AND_SPACE);
                     break;
                 default:
                     break;
@@ -46,7 +48,7 @@ public class ObjParser {
             return msg + "}";
         } else if (object instanceof Collection) {
             Collection collection = (Collection) object;
-            String msg = "%s size = %d [\n";
+            String msg = "%s size = %d [\n  ";
             msg = String.format(Locale.ENGLISH, msg, simpleName, collection.size());
             if (!collection.isEmpty()) {
                 Iterator iterator = collection.iterator();
@@ -57,16 +59,16 @@ public class ObjParser {
                     msg += String.format(Locale.ENGLISH, itemString,
                             flag,
                             objectToString(item),
-                            flag++ < collection.size() - 1 ? ",\n" : "\n");
+                            flag++ < collection.size() - 1 ? ",\n  " : "\n  ");
                 }
             }
             return msg + "]";
         } else if (object instanceof Map) {
-            String msg = simpleName + " {\n";
+            String msg = simpleName + " {\n  ";
             Map map = (Map) object;
             Set keys = map.keySet();
             for (Object key : keys) {
-                String itemString = "[%s -> %s]\n";
+                String itemString = "[%s -> %s]\n  ";
                 Object value = map.get(key);
                 msg += String.format(itemString, objectToString(key), objectToString(value));
             }
@@ -84,8 +86,10 @@ public class ObjParser {
         if (object == null) {
             return "Object{object is null}";
         }
-        if (object.toString().startsWith(object.getClass().getName() + "@")) {
-            StringBuilder builder = new StringBuilder(object.getClass().getSimpleName() + "{");
+        String toStr = object.toString();
+        if (toStr.startsWith(object.getClass().getName() + "@")) {
+            StringBuilder builder = new StringBuilder(toStr + "{");
+            builder.append(PrintStyle.NEWLINE_AND_SPACE);
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
@@ -99,18 +103,31 @@ public class ObjParser {
                         } catch (IllegalAccessException e) {
                             value = e;
                         } finally {
-                            builder.append(String.format("%s=%s, ", field.getName(),
-                                    value == null ? "null" : value.toString()));
+                            builder.append(String.format("%s=%s,", field.getName(), value == null ? "null" : value.toString()))
+                                    .append(PrintStyle.NEWLINE_AND_SPACE);
                         }
                     }
                 }
                 if (!flag) {
-                    builder.append(String.format("%s=%s, ", field.getName(), "Object"));
+                    try {
+                        Object objectf = field.get(object);
+                        String objStr = objectf == null ? "null" : objectf.toString();
+                        builder.append(String.format("%s=%s,", field.getName(), objStr))
+                                .append(PrintStyle.NEWLINE_AND_SPACE);//"Object"
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        builder.append(String.format("%s=%s,", field.getName(), "object"))
+                                .append(PrintStyle.NEWLINE_AND_SPACE);
+                    }
                 }
             }
-            return builder.replace(builder.length() - 2, builder.length() - 1, "}").toString();
+            int idx = builder.lastIndexOf(",");
+            if(idx > 0){
+                return builder.replace(idx, idx+2, "  }").toString();
+            }
+            return builder.toString();
         } else {
-            return object.toString();
+            return toStr;
         }
     }
 }

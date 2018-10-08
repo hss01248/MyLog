@@ -115,13 +115,13 @@ public class Logger {
      * @param json the json content
      */
     public static void json(String json) {
-        Timber.i(XmlJsonParser.json(json));
+        Timber.d(XmlJsonParser.json(json));
     }
 
     public static void json(String json,String tag) {
         String str = XmlJsonParser.json(json);
         isTagJson = true;
-        Timber.tag(tag).i(str);
+        Timber.tag(tag).d(str);
         isTagJson = false;
     }
 

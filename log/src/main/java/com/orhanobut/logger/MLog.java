@@ -5,15 +5,31 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.File;
+
+import me.pqpo.librarylog4a.Log4a;
+import me.pqpo.librarylog4a.LogData;
+import me.pqpo.librarylog4a.appender.AndroidAppender;
+import me.pqpo.librarylog4a.appender.FileAppender;
+import me.pqpo.librarylog4a.interceptor.Interceptor;
+import me.pqpo.librarylog4a.logger.AppenderLogger;
+
 /**
  * by huangshuisheng
  */
-public class MyLog {
+public class MLog {
 
     private   static boolean DEBUG ;
     private static IJsonToStr json;
 
-    public static void init(boolean debug,String gloablTag,IJsonToStr iJson) {
+    /**
+     *
+     * @param debug
+     * @param gloablTag
+     * @param methodOffset 直接适用MyLog.xx时,methodOffset传1.每封装一层,加1.
+     * @param iJson
+     */
+    public static void init(boolean debug,String gloablTag,int methodOffset,IJsonToStr iJson) {
         DEBUG = debug;
         json = iJson;
 
@@ -24,20 +40,34 @@ public class MyLog {
                         .showThreadInfo(true)
                         .tagPrefix("")
                         .globalTag(gloablTag)
-                        .methodOffset(1)
+                        .methodOffset(methodOffset)
                         .logPriority(DEBUG ? Log.VERBOSE : Log.ASSERT)
                         .build());
 
 
-        /*LogConfiguration config = new LogConfiguration.Builder()
-            .logLevel(DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
-                : LogLevel.NONE)
-            .tag("akulaku")                                         // Specify TAG, default: "X-LOG"
-            .t()                                                   // Enable thread info, disabled by default
-            .st(2)                                                 // Enable stack trace info with depth 2, disabled by default
-            .b()
-            .build();
-        XLog.init(config);*/
+
+       /* AndroidAppender.Builder androidBuild = new AndroidAppender.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public boolean intercept(LogData logData) {
+                        return false;
+                    }
+                });*/
+
+        /*File log = FileUtils.getLogDir(context);
+        String log_path = log.getAbsolutePath() + File.separator + "log.txt";
+        FileAppender.Builder fileBuild = new FileAppender.Builder(context)
+                .setLogFilePath(log_path);
+
+        me.pqpo.librarylog4a.logger.Logger logger = new AppenderLogger.Builder()
+                .addAppender(androidBuild.create())
+                .addAppender(fileBuild.create())
+                .create();
+
+        Log4a.setLogger(logger);*/
+
+
+
     }
 
 
@@ -104,6 +134,21 @@ public class MyLog {
     public static void e(String message) {
         if (DEBUG) {
             Logger.e(message);
+        }
+    }
+
+    public static void printStack(Throwable e) {
+        if (DEBUG) {
+            if(e !=null){
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void printStack(String msg) {
+        if (DEBUG) {
+            if(!TextUtils.isEmpty(msg)){
+                new Throwable(msg).printStackTrace();
+            }
         }
     }
 
@@ -186,7 +231,7 @@ public class MyLog {
     public static void bitmap(Bitmap bitmap) {
         if (DEBUG) {
             if (bitmap == null) {
-                MyLog.d("bitmap is null");
+                MLog.d("bitmap is null");
                 return;
             }
             int width = bitmap.getWidth() - 1;

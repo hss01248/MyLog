@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import timber.log.Timber;
 
 /**
+ *
+ * Android系统的单条日志打印长度是有限的，长度是固定的4*1024个字符长度
+ *
  * extends {@link timber.log.Timber.Tree} for make log pretty
  */
 public final class LogPrinter extends Timber.DebugTree {
@@ -73,11 +76,20 @@ public final class LogPrinter extends Timber.DebugTree {
 
         super.log(priority, tag, "├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄", null);
 
-        String[] lines = message.split(PROPERTY);
+       /* String[] lines = message.split(PROPERTY);
         for (int i = 0, length = lines.length; i < length; i++) {
             String logStr = style.printLog(lines[i], i, length);
             super.log(priority, tag, logStr, null);
+        }*/
+//Android系统的单条日志打印长度是有限的，长度是固定的4*1024个字符长度
+        String msg = message;
+        while (msg.length() > 4000){
+            String pre = msg.substring(0,4000);
+            super.log(priority, tag, pre, null);
+            msg = msg.substring(4000);
         }
+        super.log(priority, tag, msg, null);
+
 
         if (style.afterPrint() != null) {
             super.log((priority), tag, style.afterPrint(), null);

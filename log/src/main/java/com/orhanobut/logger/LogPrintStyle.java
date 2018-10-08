@@ -24,6 +24,25 @@ public class LogPrintStyle extends PrintStyle {
             return "";
         }
 
+
+
+       /* if (sb.length() < 0) {
+            sb = new StringBuilder();
+        } else {
+            sb.setLength(0);
+
+        }*/
+         StringBuilder  sb = new StringBuilder(200);
+       /* sb.append("\n");
+        sb.append("├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+        sb.append("\n");*/
+           sb.append(PREFIX_BORDER);
+
+        if (getSettings().showThreadInfo) {
+            sb.append(" ────> Thread: ").append(Thread.currentThread().getName()).append(","); // Thread:main
+        }
+
+           //打印方法栈信息,打印三层
         int index = Logger.STACK_OFFSET + getSettings().methodOffset ;
         if (getPrinter().isCustomTag()) {
             index -= 2;
@@ -32,33 +51,30 @@ public class LogPrintStyle extends PrintStyle {
             index++;
         }
         StackTraceElement[]  elements= Thread.currentThread().getStackTrace();
+
         if(index > elements.length-1){
             index = elements.length-1;
         }
-        final StackTraceElement stack = elements[index];
-
-       /* if (sb.length() < 0) {
-            sb = new StringBuilder();
-        } else {
-            sb.setLength(0);
-
-        }*/
-         StringBuilder  sb = new StringBuilder(100);
-       /* sb.append("\n");
-        sb.append("├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
-        sb.append("\n");*/
-           sb.append(PREFIX_BORDER);
-           String info = String.format(" ────> %s(%s:%s)",
-               stack.getMethodName(),
-               stack.getFileName(),
-               stack.getLineNumber());
-           sb.append(info);
 
 
-           if (getSettings().showThreadInfo) {
-               sb.append(" Thread: ").append(Thread.currentThread().getName()); // Thread:main
-           }
-           return sb.toString();
+
+         StackTraceElement stack = elements[index];
+       String info = String.format(" %s(%s:%s),", stack.getMethodName(), stack.getFileName(), stack.getLineNumber());
+       sb.append(info);
+
+        //上一个栈
+        if(index +1 <= elements.length - 1){
+            StackTraceElement stack0 = elements[index+1];
+            String info0 = String.format("pre: %s(%s:%s),", stack0.getMethodName(), stack0.getFileName(), stack0.getLineNumber());
+            sb.append(info0);
+        }
+
+       //下一个栈
+        StackTraceElement stack2 = elements[index-1];
+        String info2 = String.format("next: %s(%s:%s)", stack2.getMethodName(), stack2.getFileName(), stack2.getLineNumber());
+        sb.append(info2);
+
+       return sb.toString();
     }
 
     @NonNull
